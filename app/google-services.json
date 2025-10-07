@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1044056012043",
+    "project_id": "chattranslationbackend",
+    "storage_bucket": "chattranslationbackend.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044056012043:android:b61a4d47caa628514fde0e",
+        "android_client_info": {
+          "package_name": "com.example.chattranslation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbc4QbAv-ID2QqlEUjYWVcaYhizpIXMKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
