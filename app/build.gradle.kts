@@ -17,7 +17,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("customDebug") {
+            storeFile = file("C:\\Users\\ericw\\AndroidStudioKeystores\\ChatTranslation\\keystore")
+            storePassword = project.property("MY_KEYSTORE_PASSWORD") as String
+            keyAlias = project.property("MY_KEY_ALIAS") as String
+            keyPassword = project.property("MY_KEY_PASSWORD") as String
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("customDebug")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -45,5 +57,6 @@ dependencies {
     implementation("com.hbb20:ccp:2.7.3")
 
     implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
 }
