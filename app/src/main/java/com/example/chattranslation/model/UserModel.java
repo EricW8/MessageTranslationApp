@@ -4,18 +4,18 @@ import com.google.firebase.Timestamp;
 
 public class UserModel {
     private String phone;
-    private String userName;
+    private String username;
     private Timestamp createdTimestamp;
-
+    private String userId;
 
     public UserModel() {
-
     }
 
-    public UserModel(String phone, String userName, Timestamp createdTimestamp) {
+    public UserModel(String phone, String username, Timestamp createdTimestamp, String userId) {
         this.phone = phone;
-        this.userName = userName;
+        this.username = username;
         this.createdTimestamp = createdTimestamp;
+        this.userId = userId;
     }
 
     public String getPhone() {
@@ -26,12 +26,12 @@ public class UserModel {
         this.phone = phone;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Timestamp getCreatedTimestamp() {
@@ -40,5 +40,13 @@ public class UserModel {
 
     public void setCreatedTimestamp(Timestamp createdTimestamp) {
         this.createdTimestamp = createdTimestamp;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

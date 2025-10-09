@@ -58,9 +58,9 @@ public class LoginUsernameActivity extends AppCompatActivity {
         }
         setInProgress(true);
         if (userModel != null){
-            userModel.setUserName(username);
+            userModel.setUsername(username);
         }else{
-            userModel = new UserModel(phoneNumber,username, Timestamp.now());
+            userModel = new UserModel(phoneNumber, username, Timestamp.now(), FirebaseUtil.currentUserId());
         }
         FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -83,7 +83,7 @@ public class LoginUsernameActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     userModel = task.getResult().toObject(UserModel.class);
                     if (userModel != null){
-                        usernameInput.setText(userModel.getUserName());
+                        usernameInput.setText(userModel.getUsername());
                     }
                 }
             }
