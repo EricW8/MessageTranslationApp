@@ -5,4 +5,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#9E9E9E</color>
+    
+    <color name="chat_color_sender">#1E88E5</color>
+    <color name="chat_color_receiver">#D3C222</color>
 </resources>
