@@ -61,5 +61,9 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.firebaseui:firebase-ui-firestore:9.0.0")
 
+    implementation("com.google.mlkit:translate:17.0.3")
+    implementation("com.google.mlkit:language-id:17.0.5")
+    implementation("com.google.android.gms:play-services-tasks:18.0.2")
+
     implementation("androidx.recyclerview:recyclerview:1.3.1")
 }

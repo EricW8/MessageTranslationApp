@@ -6,4 +6,7 @@
     <item android:title="Profile"
         android:icon="@drawable/person_icon"
         android:id="@+id/menu_profile"/>
+    <item android:title="Translation Settings"
+        android:icon="@drawable/language_icon"
+        android:id="@+id/menu_translate"/>
 </menu>

@@ -72,7 +72,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
         backBtn.setOnClickListener((v)->{
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         });
         otherUsername.setText(otherUser.getUsername());
 
@@ -143,5 +143,26 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(adapter!=null)
+            adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(adapter!=null)
+            adapter.stopListening();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(adapter!=null)
+            adapter.startListening();
     }
 }

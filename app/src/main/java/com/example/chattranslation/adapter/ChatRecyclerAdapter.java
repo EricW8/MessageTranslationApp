@@ -2,6 +2,8 @@ package com.example.chattranslation.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chattranslation.ChatActivity;
+import com.example.chattranslation.MyTranslator;
 import com.example.chattranslation.R;
 import com.example.chattranslation.model.ChatMessageModel;
 import com.example.chattranslation.utils.AndroidUtil;
@@ -33,10 +36,35 @@ public class ChatRecyclerAdapter extends FirestoreRecyclerAdapter<ChatMessageMod
             holder.leftChatLayout.setVisibility(View.GONE);
             holder.rightChatLayout.setVisibility(View.VISIBLE);
             holder.rightChatTextview.setText(model.getMessage());
+
+            MyTranslator translator = new MyTranslator();
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context); // pass context into adapter
+            String selectedLanguageCode = prefs.getString("selected_language_code", "en");
+            translator.translateMessage(model.getMessage(), selectedLanguageCode)
+                    .addOnSuccessListener(translatedText -> {
+                        holder.rightChatTextview.setText(translatedText);
+                    })
+                    .addOnFailureListener(e -> {
+
+                    });
         } else {
             holder.leftChatLayout.setVisibility(View.VISIBLE);
             holder.rightChatLayout.setVisibility(View.GONE);
             holder.leftChatTextview.setText(model.getMessage());
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context); // pass context into adapter
+            String selectedLanguageCode = prefs.getString("selected_language_code", "en");
+
+            MyTranslator translator = new MyTranslator();
+
+            translator.translateMessage(model.getMessage(), selectedLanguageCode)
+                    .addOnSuccessListener(translatedText -> {
+                        holder.leftChatTextview.setText(translatedText);
+                    })
+                    .addOnFailureListener(e -> {
+
+                    });
         }
     }
 

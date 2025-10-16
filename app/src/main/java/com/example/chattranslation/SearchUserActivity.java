@@ -74,15 +74,19 @@ public class SearchUserActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(adapter!=null)
+        if(adapter!=null) {
+            recyclerView.setAdapter(adapter);
             adapter.startListening();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if(adapter!=null)
+        if(adapter!=null) {
             adapter.stopListening();
+            recyclerView.setAdapter(null);
+        }
     }
 
     @Override
