@@ -29,9 +29,18 @@ public class MyTranslator {
                         return;
                     }
 
+                    String sourceLang = TranslateLanguage.fromLanguageTag(languageCode);
+                    String targetLang = TranslateLanguage.fromLanguageTag(language);
+
+                    if (sourceLang == null){
+                        sourceLang = TranslateLanguage.ENGLISH;
+                    }
+                    if (targetLang == null){
+                        targetLang = TranslateLanguage.ENGLISH;
+                    }
                     TranslatorOptions options = new TranslatorOptions.Builder()
-                            .setSourceLanguage(TranslateLanguage.fromLanguageTag(languageCode))
-                            .setTargetLanguage(TranslateLanguage.fromLanguageTag(language))
+                            .setSourceLanguage(sourceLang)
+                            .setTargetLanguage(targetLang)
                             .build();
 
                     com.google.mlkit.nl.translate.Translator translator = Translation.getClient(options);

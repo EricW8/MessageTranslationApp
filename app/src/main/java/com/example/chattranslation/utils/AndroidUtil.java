@@ -17,6 +17,8 @@ public class AndroidUtil {
         intent.putExtra("userId", model.getUserId());
     }
 
+
+
     public static UserModel getUserModelFromIntent(Intent intent){
         UserModel userModel = new UserModel();
         userModel.setUsername(intent.getStringExtra("username"));

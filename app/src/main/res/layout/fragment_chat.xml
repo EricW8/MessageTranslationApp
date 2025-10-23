@@ -5,12 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".ChatFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chat Screen"
+        android:text="Chats"
         android:textSize="22sp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerHorizontal="true"
+        android:id="@+id/chat_text_title"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/chat_text_title"
+        android:padding="10dp"
+        android:id="@+id/previous_chats_recycler_view"
+        />
 </RelativeLayout>
