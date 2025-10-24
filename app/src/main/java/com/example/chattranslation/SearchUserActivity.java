@@ -19,7 +19,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
 
 
-public class SearchUserActivity extends AppCompatActivity {
+public class SearchUserActivity extends BaseActivity {
 
     EditText searchInput;
     ImageButton searchButton;

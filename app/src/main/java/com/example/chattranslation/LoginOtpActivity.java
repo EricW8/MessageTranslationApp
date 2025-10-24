@@ -30,7 +30,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-public class LoginOtpActivity extends AppCompatActivity {
+public class LoginOtpActivity extends BaseActivity {
     String phoneNumber;
     Long timeoutSeconds = 60L;
     String verificationCode;

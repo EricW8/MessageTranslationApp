@@ -7,18 +7,35 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.example.chattranslation.model.FeedbackModel;
+import com.example.chattranslation.utils.FirebaseUtil;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.mlkit.nl.languageid.LanguageIdentification;
+import com.google.mlkit.nl.languageid.LanguageIdentifier;
 
 import java.util.*;
 
 public class TranslateFragment extends Fragment {
     private Spinner languageSpinner;
+    private Spinner themeSpinner;
+    private boolean isSpinnerInitialized = false;
+
+    private EditText feedbackText;
+    private Button feedbackButton;
+    FirebaseFirestore db;
     private String selectedLanguageCode = "en";
     private final Map<String, String> languageMap = new TreeMap<>();
 
@@ -38,9 +55,12 @@ public class TranslateFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         languageSpinner = view.findViewById(R.id.language_spinner);
+        themeSpinner = view.findViewById(R.id.theme_spinner);
 
         setupLanguageMap();
         setupSpinner();
+        setupThemes();
+        setupFeedbackSystem();
     }
 
     private void setupLanguageMap() {
@@ -122,7 +142,7 @@ public class TranslateFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageSpinner.setAdapter(adapter);
 
-        languageSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
+        languageSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
                 String selectedLanguageName = languageNames.get(position);
@@ -140,4 +160,102 @@ public class TranslateFragment extends Fragment {
         });
     }
 
+    private void setupThemes() {
+        List<String> themeNames = new ArrayList<>();
+        themeNames.add("Red");
+        themeNames.add("Orange");
+        themeNames.add("Yellow");
+        themeNames.add("Green");
+        themeNames.add("Blue");
+        themeNames.add("Purple");
+
+        Map<Integer, String> positionToTheme = new HashMap<>();
+        positionToTheme.put(0, "red");
+        positionToTheme.put(1, "orange");
+        positionToTheme.put(2, "yellow");
+        positionToTheme.put(3, "green");
+        positionToTheme.put(4, "blue");
+        positionToTheme.put(5, "purple");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                themeNames
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        themeSpinner.setAdapter(adapter);
+
+        SharedPreferences prefs = requireContext().getSharedPreferences("theme_prefs", getContext().MODE_PRIVATE);
+        String currentTheme = prefs.getString("theme", "red"); // default to red
+        int position = 0; // default
+        switch (currentTheme) {
+            case "red": position = 0; break;
+            case "orange": position = 1; break;
+            case "yellow": position = 2; break;
+            case "green": position = 3; break;
+            case "blue": position = 4; break;
+            case "purple": position = 5; break;
+        }
+        themeSpinner.setSelection(position);
+
+        themeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                if (!isSpinnerInitialized) {
+                    isSpinnerInitialized = true; // ignore first automatic call
+                    return;
+                }
+
+                String selectedTheme = positionToTheme.getOrDefault(pos, "red");
+                String savedTheme = prefs.getString("theme", "red");
+
+                if (!selectedTheme.equals(savedTheme)) {
+                    prefs.edit().putString("theme", selectedTheme).apply();
+
+                    // safely recreate
+                    requireActivity().getWindow().getDecorView().post(() -> {
+                        if (isAdded()) requireActivity().recreate();
+                    });
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+
+    private void setupFeedbackSystem(){
+        db = FirebaseFirestore.getInstance();
+        feedbackText = getView().findViewById(R.id.feedback_text);
+        feedbackButton = getView().findViewById(R.id.feedback_submit);
+
+        feedbackButton.setOnClickListener(v -> {
+            String feedback = feedbackText.getText().toString().trim();
+
+            if (feedback.isEmpty()) {
+                Toast.makeText(getContext(), "Please enter feedback", Toast.LENGTH_SHORT).show();
+            } else {
+                LanguageIdentifier languageIdentifier = LanguageIdentification.getClient();
+                languageIdentifier.identifyLanguage(feedback)
+                        .addOnSuccessListener(languageCode -> {
+                            if (languageCode.equals("en")) {
+                                FeedbackModel f = new FeedbackModel(Timestamp.now(), FirebaseUtil.currentUserId(), feedback);
+
+                                db.collection("feedback")
+                                        .add(f)
+                                        .addOnSuccessListener(documentReference -> {
+                                            Toast.makeText(getContext(), "Feedback submitted!", Toast.LENGTH_SHORT).show();
+                                            feedbackText.setText("");
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
+                                Toast.makeText(getContext(), "English not detected, please give feedback in English", Toast.LENGTH_SHORT).show();
+                            }
+                });
+            }
+        });
+    }
 }

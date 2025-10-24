@@ -40,7 +40,7 @@ import org.checkerframework.checker.units.qual.C;
 
 import java.util.Arrays;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseActivity {
     UserModel otherUser;
     String chatroomId;
     ChatroomModel chatroomModel;

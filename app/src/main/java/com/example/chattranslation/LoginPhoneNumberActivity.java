@@ -14,7 +14,7 @@ import android.widget.*;
 
 import com.hbb20.CountryCodePicker;
 
-public class LoginPhoneNumberActivity extends AppCompatActivity {
+public class LoginPhoneNumberActivity extends BaseActivity {
     CountryCodePicker countryCodePicker;
     EditText phoneInput;
     Button sendOtpBtn;

@@ -49,7 +49,7 @@
             android:layout_height="32dp"
             android:layout_margin="10dp"
             android:background="@drawable/circular_bg"
-            android:backgroundTint="@color/my_primary">
+            android:backgroundTint="?attr/colorPrimary">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/person_icon"
-        app:tint="@color/my_primary"
+        app:tint="?attr/colorPrimary"
         android:layout_weight="20"
         />
 
@@ -114,7 +114,7 @@
         <ProgressBar
             android:layout_width="32dp"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/my_primary"
+            android:indeterminateTint="?attr/colorPrimary"
             android:layout_gravity="center"
             android:id="@+id/login_progress_bar"/>
     </LinearLayout>

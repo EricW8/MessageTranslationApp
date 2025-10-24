@@ -21,7 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-public class LoginUsernameActivity extends AppCompatActivity {
+public class LoginUsernameActivity extends BaseActivity {
     EditText usernameInput;
     Button letMeInBtn;
     ProgressBar progressBar;

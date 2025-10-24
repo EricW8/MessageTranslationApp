@@ -15,12 +15,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     BottomNavigationView bottomNavigationView;
     ImageButton searchButton;
 
     ChatFragment chatFragment;
-    ProfileFragment profileFragment;
     TranslateFragment translateFragment;
 
     @Override
@@ -35,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         chatFragment = new ChatFragment();
-        profileFragment = new ProfileFragment();
         translateFragment = new TranslateFragment();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -50,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId()==R.id.menu_chat){
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout,chatFragment).commit();
-                }
-                if(item.getItemId()==R.id.menu_profile){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout,profileFragment).commit();
                 }
                 if(item.getItemId()==R.id.menu_translate){
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout,translateFragment).commit();
