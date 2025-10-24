@@ -236,25 +236,16 @@ public class TranslateFragment extends Fragment {
             if (feedback.isEmpty()) {
                 Toast.makeText(getContext(), "Please enter feedback", Toast.LENGTH_SHORT).show();
             } else {
-                LanguageIdentifier languageIdentifier = LanguageIdentification.getClient();
-                languageIdentifier.identifyLanguage(feedback)
-                        .addOnSuccessListener(languageCode -> {
-                            if (languageCode.equals("en")) {
-                                FeedbackModel f = new FeedbackModel(Timestamp.now(), FirebaseUtil.currentUserId(), feedback);
-
-                                db.collection("feedback")
-                                        .add(f)
-                                        .addOnSuccessListener(documentReference -> {
-                                            Toast.makeText(getContext(), "Feedback submitted!", Toast.LENGTH_SHORT).show();
-                                            feedbackText.setText("");
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                        });
-                            } else {
-                                Toast.makeText(getContext(), "English not detected, please give feedback in English", Toast.LENGTH_SHORT).show();
-                            }
-                });
+                FeedbackModel f = new FeedbackModel(Timestamp.now(), FirebaseUtil.currentUserId(), feedback);
+                db.collection("feedback")
+                        .add(f)
+                        .addOnSuccessListener(documentReference -> {
+                            Toast.makeText(getContext(), "Feedback submitted!", Toast.LENGTH_SHORT).show();
+                            feedbackText.setText("");
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
             }
         });
     }

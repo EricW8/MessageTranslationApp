@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Feedback Here (English)"
+            android:hint="Feedback Here"
             android:id="@+id/feedback_text"/>
 
         <Button
